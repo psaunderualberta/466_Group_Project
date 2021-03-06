@@ -26,6 +26,7 @@ user_data = user_data[user_data["Username"]!="AnonymousMC"]
 user_data
 #%%
 user_groups = user_data.groupby('Username')
+user_groups = user_groups.filter(lambda x: len(x)>1).groupby('Username')
 # %%
 # 70 - 10 - 20 Split
 train_validation_groups, test_groups = train_test_split(
