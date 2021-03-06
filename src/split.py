@@ -20,6 +20,7 @@ USER_DATA_PATH = DRIVE_PATH/"src/data/raw_metacritic_game_user_comments.csv"
 user_data = pd.read_csv(USER_DATA_PATH)
 # Remove anonymous users
 user_data = user_data[user_data["Username"]!="[Anonymous]"]
+user_data = user_data[user_data["Username"]!="AnonymousMC"]
 #game_data = pd.read_csv(GAME_DATA_PATH)
 #%%
 user_data
