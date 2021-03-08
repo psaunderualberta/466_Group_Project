@@ -37,13 +37,12 @@ def vectorize_users(df:pd.DataFrame):
         vector_rows.append(vector_row)
     return pd.DataFrame(vector_rows)
         
-vec_df = vectorize_users(train_set)
 # %%
 # get_closest_user based on https://codereview.stackexchange.com/a/134918
-vec_columns_set = set(vec_df.columns)
-top_n = 10
+top_n = 12
 
-def get_closest_value(user_vec_df, title):
+def get_closest_value(user_vec_df, vec_df, title):
+    vec_columns_set = set(vec_df.columns)
     title_intersection = list(set(user_vec_df.columns).intersection(vec_columns_set))
     user_vec = user_vec_df[title_intersection].to_numpy()[0]
     filtered_vec_df = vec_df[pd.notnull(vec_df[title])]
@@ -60,7 +59,7 @@ def get_closest_value(user_vec_df, title):
 #%%
 
 # Note assumes that games across different platforms are the same
-def get_prediction_df(df):
+def get_prediction_df(df,vec_df):
     user_groups = df.groupby('Username')
     rows_with_predictions = []
     for name, group_df in tqdm(user_groups):
@@ -69,7 +68,7 @@ def get_prediction_df(df):
             prediction = 0
             if title in vec_df.columns:
                 user_vec_df = vectorize_users(group_df.drop(index))
-                prediction = get_closest_value(user_vec_df, title)
+                prediction = get_closest_value(user_vec_df,vec_df, title)
             else:
                 # If not seen before use global mean
                 prediction = mean_rating
@@ -78,11 +77,13 @@ def get_prediction_df(df):
     return pd.DataFrame(rows_with_predictions)
 
 # %%
-validation_predictions = get_prediction_df(validation_set)
+train_vec = vectorize_users(train_set)
+validation_predictions = get_prediction_df(validation_set,train_vec)
 validation_rmse = mean_squared_error(validation_predictions['Userscore'], validation_predictions['PredictedScore'], squared = False)
 print(f"Validation RMSE {validation_rmse}")
 # %%
-tests_predictions = get_prediction_df(test_set)
+train_validate_vec = vectorize_users(pd.concat([train_set,validation_set]))
+tests_predictions = get_prediction_df(test_set,train_validate_vec)
 test_rmse = mean_squared_error(tests_predictions['Userscore'], tests_predictions['PredictedScore'], squared = False)
 print(f"Test RMSE {test_rmse}")
 # %%
