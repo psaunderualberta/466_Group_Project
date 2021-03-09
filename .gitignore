@@ -175,3 +175,9 @@ tags
 *.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/vim,vscode,jupyternotebooks
+
+notes.txt
+data.zip
+old_data/
+temp/
+embeddings-temp.ipynb
