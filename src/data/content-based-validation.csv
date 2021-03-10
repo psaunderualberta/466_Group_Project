@@ -1,0 +1,33 @@
+,RMSEs
+(),inf
+"('Title',)",6.128860392913564
+"('Publisher',)",7.067758570996894
+"('Genre',)",3.790114323246962
+"('Platform',)",4.151787427494914
+"('No_Players',)",5.503915827235503
+"('Title', 'Publisher')",5.93322010425121
+"('Title', 'Genre')",3.5680433884674696
+"('Title', 'Platform')",3.5732346540803834
+"('Title', 'No_Players')",4.641266035693517
+"('Publisher', 'Genre')",3.7410201954256417
+"('Publisher', 'Platform')",3.8495188735216384
+"('Publisher', 'No_Players')",5.080401950020941
+"('Genre', 'Platform')",3.0264022623495
+"('Genre', 'No_Players')",3.3814445268059625
+"('Platform', 'No_Players')",3.5012766528806987
+"('Title', 'Publisher', 'Genre')",3.5422000774398326
+"('Title', 'Publisher', 'Platform')",3.539047343051334
+"('Title', 'Publisher', 'No_Players')",4.52616427655339
+"('Title', 'Genre', 'Platform')",2.943694641365184
+"('Title', 'Genre', 'No_Players')",3.250050850714228
+"('Title', 'Platform', 'No_Players')",3.2286098831550802
+"('Publisher', 'Genre', 'Platform')",3.0108427035893612
+"('Publisher', 'Genre', 'No_Players')",3.346876383818996
+"('Publisher', 'Platform', 'No_Players')",3.389502457968039
+"('Genre', 'Platform', 'No_Players')",2.899633687630342
+"('Title', 'Publisher', 'Genre', 'Platform')",2.9352804472913383
+"('Title', 'Publisher', 'Genre', 'No_Players')",3.2349542136681855
+"('Title', 'Publisher', 'Platform', 'No_Players')",3.2067370383296705
+"('Title', 'Genre', 'Platform', 'No_Players')",2.846240596861303
+"('Publisher', 'Genre', 'Platform', 'No_Players')",2.887901784844021
+"('Title', 'Publisher', 'Genre', 'Platform', 'No_Players')",2.840064275384498
