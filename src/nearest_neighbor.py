@@ -13,16 +13,17 @@ from tqdm import tqdm
 # DRIVE_PATH = "/content/drive/Shared drives/CMPUT466 Project"
 
 #%% If using windows
-DRIVE_PATH = Path("G:/Shared drives/CMPUT466 Project")
+# DRIVE_PATH = Path("G:/Shared drives/CMPUT466 Project")
 #%%
-DATA_FOLDER=DRIVE_PATH/"src/data/"
-train_set = pd.read_csv(DATA_FOLDER/'user_data_train.csv')
-test_set = pd.read_csv(DATA_FOLDER/'user_data_test.csv')
-validation_set = pd.read_csv(DATA_FOLDER/'user_data_validation.csv')
-full_set = pd.concat([train_set,test_set,validation_set])
+DATA_FOLDER = Path(__file__).parent/'data'
+train_set = pd.read_csv(DATA_FOLDER/'user_data_train_no_comments.csv')
+test_set = pd.read_csv(DATA_FOLDER/'user_data_test_no_comments.csv')
+validation_set = pd.read_csv(DATA_FOLDER/'user_data_validation_no_comments.csv')
+reject_set = pd.read_csv(DATA_FOLDER/'user_data_no_comments.csv').groupby('Username').filter(lambda x: len(x) <= 2)
+full_set = pd.concat([train_set,validation_set,reject_set])
 # %%
 mean_rating = train_set['Userscore'].mean()
-full_title_groups = full_set.groupby('Title')
+full_title_groups = full_set.groupby('Game_ID')
 titles = [x[0] for x in full_title_groups]
 mean_ratings = {x[0]:x[1]['Userscore'].mean() for x in full_title_groups}
 # base_vector_row = {x:(mean_ratings[x] if x in mean_ratings else mean_ratings) for x in full_set}
@@ -33,13 +34,13 @@ def vectorize_users(df:pd.DataFrame):
     for name, group in user_groups:
         vector_row = {}
         for index, row in group.iterrows():
-            vector_row[row['Title']] = row['Userscore']
+            vector_row[row['Game_ID']] = row['Userscore']
         vector_rows.append(vector_row)
     return pd.DataFrame(vector_rows)
         
 # %%
 # get_closest_user based on https://codereview.stackexchange.com/a/134918
-top_n = 12
+top_n = 15
 
 def get_closest_value(user_vec_df, vec_df, title):
     vec_columns_set = set(vec_df.columns)
@@ -49,7 +50,7 @@ def get_closest_value(user_vec_df, vec_df, title):
     for column in title_intersection:
         filtered_vec_df[column] = filtered_vec_df[column].fillna(mean_ratings[column])
     possible_match_vectors = filtered_vec_df[title_intersection].to_numpy()
-    distances = distance.cdist([user_vec], possible_match_vectors, 'euclidean')[0]
+    distances = distance.cdist([user_vec], possible_match_vectors, 'correlation')[0]
     min_val = distances.min()
     closest_indexes = [i for i, x in enumerate(distances) if np.isclose(x,min_val)]
     top_n_max = min(top_n,len(distances))
@@ -64,7 +65,7 @@ def get_prediction_df(df,vec_df):
     rows_with_predictions = []
     for name, group_df in tqdm(user_groups):
         for index, row in group_df.iterrows():
-            title = row['Title']
+            title = row['Game_ID']
             prediction = 0
             if title in vec_df.columns:
                 user_vec_df = vectorize_users(group_df.drop(index))
