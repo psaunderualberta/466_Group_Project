@@ -46,3 +46,6 @@ def parallel_progress_apply(series):
 if __name__ == '__main__':
     df_train['lemma_counter'] = parallel_progress_apply(df_train['Comment'])
 # %%
+if __name__ == '__main__':
+    df_validation['lemma_counter'] = parallel_progress_apply(df_validation['Comment'])
+# %%
