@@ -34,3 +34,26 @@ y_validation_predictions_norm[y_validation_predictions_norm>10] = 10
 validation_rmse = mean_squared_error(y_validation,y_validation_predictions_norm,squared=False)
 print(f"Validation RMSE: {validation_rmse}")
 # %%
+# Serialization and deserialization based on:
+# https://medium.datadriveninvestor.com/machine-learning-how-to-save-and-load-scikit-learn-models-d7b99bc32c27
+
+def save_model(model,path):
+    model_dict = {}
+    model_dict['coef'] = list(model.coef_)
+    model_dict['intercept'] = model.intercept_.tolist()
+    with open(path,'w') as model_file:
+        model_file.write(json.dumps(model_dict))
+
+save_model(model,'./models/sentiment_bow_1.json')
+#%%
+
+def load_model(path):
+    with open(path,'r') as model_file:
+        model_dict = json.loads(model_file.read())
+    model = LinearRegression()
+    model.coef_ = np.array(model_dict['coef'])
+    model.intercept_ = np.array(model_dict['intercept'])
+    return model
+
+saved_model = load_model('./models/sentiment_bow_1.json')
+# %%
