@@ -1,12 +1,16 @@
 #%% VS Code Notebook
 
+import operator
 import os
+import numpy as np
 import spacy
 import pandas as pd
 
 from collections import Counter
+from functools import reduce,partial
 from pathlib import Path
 from tqdm.contrib.concurrent import process_map
+from tqdm import tqdm
 #%%
 def load_df(dir_path):
     dfs = []
@@ -48,4 +52,16 @@ if __name__ == '__main__':
 # %%
 if __name__ == '__main__':
     df_validation['lemma_counter'] = parallel_progress_apply(df_validation['Comment'])
+# %%
+reduce_add = partial(reduce,operator.add)
+
+def parallel_progress_reduce(series):
+    groups = np.array_split(series, 512)
+    reduced_groups = process_map(reduce_add, groups, max_workers=8)
+    return reduce_add(tqdm(reduced_groups))
+
+if __name__ == '__main__':
+    train_counter=parallel_progress_reduce(df_train['lemma_counter'])
+# %%
+train_counter
 # %%
