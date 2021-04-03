@@ -54,6 +54,9 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     df_validation['lemma_counter'] = parallel_progress_apply(df_validation['Comment'])
 # %%
+if __name__ == '__main__':
+    df_test['lemma_counter'] = parallel_progress_apply(df_test['Comment'])
+# %%
 reduce_add = partial(reduce,operator.add)
 
 def parallel_progress_reduce(series):
@@ -77,9 +80,13 @@ if __name__ == '__main__':
 
     df_train['lemma_vector_json'] = df_train['lemma_counter'].progress_apply(counter_to_vec)
     df_validation['lemma_vector_json'] = df_validation['lemma_counter'].progress_apply(counter_to_vec)
+    df_test['lemma_vector_json'] = df_test['lemma_counter'].progress_apply(counter_to_vec)
 # %%
 if __name__ == '__main__':
     selected_columns = ['Title', 'Platform', 'Username', 'Userscore', 'lemma_vector_json']
     df_train[selected_columns].to_excel('./data/bag_of_words_vec_train.xlsx')
     df_validation[selected_columns].to_excel('./data/bag_of_words_vec_validation.xlsx')
+    df_test[selected_columns].to_excel('./data/bag_of_words_vec_test.xlsx')
+    with open('./data/bag_of_words_tokens.json','w') as tok_file:
+        tok_file.write(json.dumps(vec_tokens))
 # %%

@@ -17,6 +17,11 @@ df_validation = pd.read_excel('./data/bag_of_words_vec_validation.xlsx')
 X_validation = np.array(list(df_validation['lemma_vector_json'].progress_apply(lambda x: np.array(json.loads(x)))))
 y_validation = np.array(df_validation['Userscore'])
 del df_validation # Free up memory
+# %%
+df_test = pd.read_excel('./data/bag_of_words_vec_test.xlsx')
+X_test = np.array(list(df_test['lemma_vector_json'].progress_apply(lambda x: np.array(json.loads(x)))))
+y_test = np.array(df_test['Userscore'])
+del df_test # Free up memory
 
 #%%
 model = LinearRegression()
@@ -55,5 +60,15 @@ def load_model(path):
     model.intercept_ = np.array(model_dict['intercept'])
     return model
 
-saved_model = load_model('./models/sentiment_bow_1.json')
+model = load_model('./models/sentiment_bow_1.json')
+# %%
+y_test_predictions = np.array(model.predict(X_test))
+# %%
+# Normalize
+y_test_predictions_norm = y_test_predictions
+y_test_predictions_norm[y_test_predictions_norm<1] = 1
+y_test_predictions_norm[y_test_predictions_norm>10] = 10
+#%%
+test_rmse = mean_squared_error(y_test,y_test_predictions_norm,squared=False)
+print(f"Test RMSE: {test_rmse}")
 # %%
