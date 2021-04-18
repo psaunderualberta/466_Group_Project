@@ -66,7 +66,7 @@ y_test_predictions = np.array(model.predict(X_test))
 # %%
 # Normalize
 y_test_predictions_norm = y_test_predictions
-y_test_predictions_norm[y_test_predictions_norm<1] = 1
+y_test_predictions_norm[y_test_predictions_norm<0] = 0
 y_test_predictions_norm[y_test_predictions_norm>10] = 10
 #%%
 test_rmse = mean_squared_error(y_test,y_test_predictions_norm,squared=False)
