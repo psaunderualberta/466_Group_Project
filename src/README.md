@@ -17,7 +17,7 @@ All code related to the K-Nearest Neighbors approach is contained in the files `
 
 ## Embedding Matrices
 
-All code related to embedding matrices are contained in the `embeddings.ipynb` file.
+All code related to embedding matrices are contained in the `embeddings.ipynb` notebook.
 
 ## Deep Matrix Factorization
 
