@@ -60,31 +60,31 @@ model.fit(
     # validation_data=(X_validation, y_validation),
     epochs=epochs
 )
-# %% Check if it is overfitting to train set
-# Copied from https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/images/classification.ipynb
-import matplotlib.pyplot as plt
+# # %% Check if it is overfitting to train set
+# # Copied from https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/images/classification.ipynb
+# import matplotlib.pyplot as plt
 
-acc = history.history['mean_squared_error']
-val_acc = history.history['val_mean_squared_error']
+# acc = history.history['mean_squared_error']
+# val_acc = history.history['val_mean_squared_error']
 
-loss = history.history['mean_squared_error']
-val_loss = history.history['val_mean_squared_error']
+# loss = history.history['mean_squared_error']
+# val_loss = history.history['val_mean_squared_error']
 
-epochs_range = range(epochs)
+# epochs_range = range(epochs)
 
-plt.figure(figsize=(8, 8))
-plt.subplot(1, 2, 1)
-plt.plot(epochs_range, acc, label='Training Accuracy')
-plt.plot(epochs_range, val_acc, label='Validation Accuracy')
-plt.legend(loc='lower right')
-plt.title('Training and Validation Accuracy')
+# plt.figure(figsize=(8, 8))
+# plt.subplot(1, 2, 1)
+# plt.plot(epochs_range, acc, label='Training Accuracy')
+# plt.plot(epochs_range, val_acc, label='Validation Accuracy')
+# plt.legend(loc='lower right')
+# plt.title('Training and Validation Accuracy')
 
-plt.subplot(1, 2, 2)
-plt.plot(epochs_range, loss, label='Training Loss')
-plt.plot(epochs_range, val_loss, label='Validation Loss')
-plt.legend(loc='upper right')
-plt.title('Training and Validation Loss')
-plt.show()
+# plt.subplot(1, 2, 2)
+# plt.plot(epochs_range, loss, label='Training Loss')
+# plt.plot(epochs_range, val_loss, label='Validation Loss')
+# plt.legend(loc='upper right')
+# plt.title('Training and Validation Loss')
+# plt.show()
 # %%
 y_validation_predictions = np.array(model.predict(X_validation))
 y_validation_predictions_norm = y_validation_predictions
