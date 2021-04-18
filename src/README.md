@@ -8,3 +8,8 @@ place the .csv files into the data/ folder and then run the `reformat_and_split_
 All content-based filtering code is contained in `content_based_filtering.ipynb`. 
 
 The results of the permutation test scores are contained in `content_permutation_test_scores.csv`
+
+# Collaborative Filtering
+## Deep Matrix Factorization
+
+All code related to deep matrix factorization can be found in the notebook `Deep Matrix Factorization.ipynb`.
